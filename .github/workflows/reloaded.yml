@@ -23,14 +23,14 @@ on:
   workflow_dispatch:
 
 env: 
-  PUBLISH_COMMON_PATH: ./Publish/ToUpload/
+  PUBLISH_COMMON_PATH: ./Persona4Femc/Publish/ToUpload/
 
-  PUBLISH_GAMEBANANA_PATH: ./Publish/ToUpload/GameBanana
-  PUBLISH_GITHUB_PATH: ./Publish/ToUpload/Generic
-  PUBLISH_NUGET_PATH: ./Publish/ToUpload/NuGet
+  PUBLISH_GAMEBANANA_PATH: ./Persona4Femc/Publish/ToUpload/GameBanana
+  PUBLISH_GITHUB_PATH: ./Persona4Femc/Publish/ToUpload/Generic
+  PUBLISH_NUGET_PATH: ./Persona4Femc/Publish/ToUpload/NuGet
   
-  PUBLISH_CHANGELOG_PATH: ./Publish/Changelog.md
-  PUBLISH_PATH: ./Publish
+  PUBLISH_CHANGELOG_PATH: ./Persona4Femc/Publish/Changelog.md
+  PUBLISH_PATH: ./Persona4Femc/Publish
   
   RELOADEDIIMODS: .
 
@@ -53,15 +53,10 @@ jobs:
         fetch-depth: 0
         submodules: 'recursive'
         
-    - name: Setup .NET Core SDK (5.0)
+    - name: Setup .NET Core SDK (7.0)
       uses: actions/setup-dotnet@v1.8.2
       with:
-        dotnet-version: 5.0.x
-        
-    - name: Setup .NET Core SDK (6.0)
-      uses: actions/setup-dotnet@v1.8.2
-      with:
-        dotnet-version: 6.0.x
+        dotnet-version: 7.0.x
         
     - name: Setup Node.js
       uses: actions/setup-node@v2
@@ -82,10 +77,10 @@ jobs:
         }
         
     - name: Build
-      run: ./Publish.ps1 -ChangelogPath "$env:PUBLISH_CHANGELOG_PATH"
+      run: ./Persona4Femc/Publish.ps1 -ChangelogPath "$env:PUBLISH_CHANGELOG_PATH"
       
     - name: Upload GitHub Release Artifact
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v7.0.0
       with:
         # Artifact name
         name: GitHub Release
@@ -94,7 +89,7 @@ jobs:
           ${{ env.PUBLISH_GITHUB_PATH }}/*
           
     - name: Upload GameBanana Release Artifact
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v7.0.0
       with:
         # Artifact name
         name: GameBanana Release
@@ -103,7 +98,7 @@ jobs:
           ${{ env.PUBLISH_GAMEBANANA_PATH }}/*
         
     - name: Upload NuGet Release Artifact
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v7.0.0
       with:
         # Artifact name
         name: NuGet Release
@@ -112,7 +107,7 @@ jobs:
           ${{ env.PUBLISH_NUGET_PATH }}/*
         
     - name: Upload Changelog Artifact
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v7.0.0
       with:
         # Artifact name
         name: Changelog
